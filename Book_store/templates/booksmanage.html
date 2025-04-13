@@ -1,0 +1,43 @@
+{% extends 'admin.html' %} {% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h4>Quản lý Sách</h4>
+  <a href="{{ url_for('add_book') }}" class="btn btn-primary">Thêm sách mới</a>
+</div>
+<table class="table table-bordered table-striped">
+  <thead class="table-dark">
+    <tr>
+      <th>ID</th>
+      <th>Tên sách</th>
+      <th>Tác giả</th>
+      <th>Giá</th>
+      <th>Mô tả</th>
+      <th>Danh mục</th>
+      <th>Thao tác</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for book in books %}
+    <tr>
+      <td>{{ book.bid }}</td>
+      <td>{{ book.title }}</td>
+      <td>{{ book.author }}</td>
+      <td>{{ book.price }}</td>
+      <td>{{ book.description }}</td>
+      <td>{{ book.category.name }}</td>
+      <td>
+        <a
+          href="{{ url_for('edit_book', bid=book.bid) }}"
+          class="btn btn-sm btn-info"
+          >Sửa</a
+        >
+        <a
+          href="{{ url_for('delete_book', bid=book.bid) }}"
+          class="btn btn-sm btn-danger"
+          >Xóa</a
+        >
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

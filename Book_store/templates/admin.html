@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Trang Quản Trị - Bookstore</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .sidebar {
+        background-color: #212529;
+        min-height: 100vh;
+      }
+      .sidebar .nav-link {
+        color: white;
+        cursor: pointer;
+      }
+      .sidebar .nav-link.active {
+        background-color: #0d6efd;
+      }
+      .table th,
+      .table td {
+        vertical-align: middle;
+      }
+
+      /* Hiệu ứng fade ẩn/hiện */
+      .fade-section {
+        display: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      .fade-section.show {
+        display: block;
+        opacity: 1;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Bookstore Admin</a>
+        <div class="collapse navbar-collapse justify-content-end">
+          <span class="navbar-text">Chào, admin!</span>
+          <a class="nav-link text-white ms-3" href="{{ url_for('logout') }}"
+            >Đăng xuất</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-md-2 sidebar py-4">
+          <ul class="nav flex-column">
+            <!-- Danh mục -->
+            <li class="nav-item">
+              <a class="nav-link active" data-target="section-categories">
+                Quản lý danh mục
+              </a>
+            </li>
+            <!-- Sách -->
+            <li class="nav-item">
+              <a class="nav-link" data-target="section-books"> Quản lý Sách </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-target="section-orders">
+                Quản lý hóa đơn
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-target="section-users">
+                Quản lý người dùng
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <!-- Nội dung chính -->
+        <main class="col-md-10 py-4">
+          <section id="section-categories" class="fade-section show">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h4>Danh mục sách</h4>
+              <a href="{{ url_for('add_category') }}" class="btn btn-primary"
+                >Thêm danh mục</a
+              >
+            </div>
+            <table class="table table-bordered table-hover">
+              <thead class="table-light">
+                <tr>
+                  <th>Mã</th>
+                  <th>Tên danh mục</th>
+                  <th>Mô tả</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for cate in categories %}
+                <tr>
+                  <td>{{ cate.cateid }}</td>
+                  <td>{{ cate.name }}</td>
+                  <td>{{ cate.description }}</td>
+                  <td>
+                    <a
+                      href="{{ url_for('edit_category', cateid=cate.cateid) }}"
+                      class="btn btn-sm btn-info"
+                      >Sửa</a
+                    >
+                    <a
+                      href="{{ url_for('delete_category', cateid=cate.cateid) }}"
+                      class="btn btn-sm btn-danger"
+                      >Xóa</a
+                    >
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </section>
+
+          <section id="section-books" class="fade-section">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h4>Quản lý Sách</h4>
+              <a href="{{ url_for('add_book') }}" class="btn btn-primary"
+                >Thêm sách</a
+              >
+            </div>
+            <table class="table table-bordered table-striped">
+              <thead class="table-dark">
+                <tr>
+                  <th>ID</th>
+                  <th>Tên sách</th>
+                  <th>Tác giả</th>
+                  <th>Giá</th>
+                  <th>Mô tả</th>
+                  <th>Danh mục</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for book in books %}
+                <tr>
+                  <td>{{ book.bid }}</td>
+                  <td>{{ book.title }}</td>
+                  <td>{{ book.author }}</td>
+                  <td>{{ book.price }}</td>
+                  <td>{{ book.description }}</td>
+                  <td>{{ book.category.name }}</td>
+                  <td>
+                    <a
+                      href="{{ url_for('edit_book', bid=book.bid) }}"
+                      class="btn btn-sm btn-info"
+                      >Sửa</a
+                    >
+                    <a
+                      href="{{ url_for('delete_book', bid=book.bid) }}"
+                      class="btn btn-sm btn-danger"
+                      >Xóa</a
+                    >
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </section>
+
+          <section id="section-orders" class="fade-section">
+            <h4>Quản lý hóa đơn</h4>
+            <div class="alert alert-info mt-3">
+              Chức năng này hiện chưa sử dụng.
+            </div>
+          </section>
+
+          <section id="section-users" class="fade-section">
+            <h4>Quản lý người dùng</h4>
+            <div class="alert alert-info mt-3">
+              Chức năng này hiện chưa sử dụng.
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Script chuyển đổi hiển thị các section -->
+    <script>
+      const navLinks = document.querySelectorAll(".nav-link[data-target]");
+      const sections = document.querySelectorAll(".fade-section");
+
+      navLinks.forEach((link) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          // Xóa class active khỏi tất cả link
+          navLinks.forEach((ln) => ln.classList.remove("active"));
+          // Thêm class active vào link hiện tại
+          link.classList.add("active");
+
+          // Ẩn tất cả sections
+          sections.forEach((sec) => {
+            sec.classList.remove("show");
+          });
+
+          // Hiển thị section được nhấn
+          const targetId = link.getAttribute("data-target");
+          document.getElementById(targetId).classList.add("show");
+        });
+      });
+    </script>
+  </body>
+</html>

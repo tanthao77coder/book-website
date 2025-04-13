@@ -1,0 +1,41 @@
+{% extends 'admin.html' %} {% block content %}
+<section id="categories" class="mb-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4>Danh mục sách</h4>
+    <a href="{{ url_for('add_category') }}" class="btn btn-primary">
+      Thêm danh mục mới
+    </a>
+  </div>
+  <table class="table table-bordered table-hover">
+    <thead class="table-light">
+      <tr>
+        <th>Mã Danh mục</th>
+        <th>Tên danh mục</th>
+        <th>Mô tả</th>
+        <th>Hành động</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for cate in categories %}
+      <tr>
+        <td>{{ cate.cateid }}</td>
+        <td>{{ cate.name }}</td>
+        <td>{{ cate.description }}</td>
+        <td>
+          <a
+            href="{{ url_for('edit_category', cateid=cate.cateid) }}"
+            class="btn btn-sm btn-info"
+            >Sửa</a
+          >
+          <a
+            href="{{ url_for('delete_category', cateid=cate.cateid) }}"
+            class="btn btn-sm btn-danger"
+            >Xóa</a
+          >
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}
