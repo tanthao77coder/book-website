@@ -61,21 +61,7 @@ hoặc:
 flask run
 Sau đó, truy cập ứng dụng tại:
 http://127.0.0.1:5000
-4. Cấu trúc thư mục
 
-book-website/
-├── app.py
-├── config.py
-├── DB.py
-├── requirements.txt
-├── static/
-│   ├── ...
-├── templates/
-│   ├── home.html
-│   ├── detail.html
-│   ├── cart.html
-│   ├── ...
-└── ...
-5. Tác giả
+4. Tác giả
 Tác giả: Đào Tấn Thảo
 
