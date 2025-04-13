@@ -27,89 +27,43 @@ Quản trị (dành cho admin):
 3. Hướng dẫn cài đặt
 Bước 1. Clone dự án
 Trên máy tính, mở terminal (hoặc Git Bash), chạy:
-bash
-Sao chép
-Chỉnh sửa
-git clone https://github.com/<tên-tài-khoản-git>/<tên-repo-bookstore>.git
+git clone https://github.com/tanthao77coder/book-website.git
+
 Vào thư mục dự án:
+cd book-website
 
-bash
-Sao chép
-Chỉnh sửa
-cd bookstore
 Bước 2. Cài đặt Python
-Đảm bảo đã cài Python 3.x:
-
-Kiểm tra phiên bản:
-
-bash
-Sao chép
-Chỉnh sửa
+Kiểm tra phiên bản Python:
 python --version
-Nếu chưa, tải và cài từ python.org.
-
-Bước 3. Tạo và kích hoạt môi trường ảo (venv)
-bash
-Sao chép
-Chỉnh sửa
-# Tạo venv
+Nếu chưa cài, tải và cài đặt tại python.org.
+Bước 3. Tạo và kích hoạt môi trường ảo
+Tạo môi trường ảo:
 python -m venv venv
-
-# Kích hoạt môi trường ảo
-# Windows:
+Kích hoạt (tùy HĐH):
+Windows:
 venv\Scripts\activate
-# Linux/Mac:
+
+Mac/Linux:
 source venv/bin/activate
+
 Bước 4. Cài đặt thư viện cần thiết
-Trong thư mục dự án đã clone:
-
-bash
-Sao chép
-Chỉnh sửa
 pip install -r requirements.txt
-Lưu ý: Nếu bạn chưa có file requirements.txt, có thể tự tạo nhanh bằng lệnh:
 
-bash
-Sao chép
-Chỉnh sửa
-pip freeze > requirements.txt
 Bước 5. Cấu hình Database (MySQL)
-Cài đặt MySQL nếu chưa (XAMPP hoặc MySQL Community).
+- Cài đặt MySQL nếu chưa (XAMPP hoặc MySQL Community).
+- Tạo database book_store (hoặc tên khác).
+- Mở file config.py (hoặc nơi bạn lưu config), kiểm tra MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE.
+- Chạy script tạo bảng (setup_database.py hoặc db.create_all()) nếu cần.
 
-Tạo database book_store (hoặc tên khác).
-
-Kiểm tra/mở file config.py (hoặc nơi bạn lưu config DB), chỉnh MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE phù hợp.
-
-Bước 6. Khởi tạo bảng (nếu cần)
-Nếu bạn chưa tạo bảng, hãy chạy script setup DB (ví dụ setup_database.py) hoặc chạy lệnh db.create_all() trong code (nếu có).
-
-Ví dụ:
-
-bash
-Sao chép
-Chỉnh sửa
-python setup_database.py
-Hoặc truy cập MySQL và tạo các bảng (books, category, users) thủ công.
-
-Bước 7. Chạy dự án
-bash
-Sao chép
-Chỉnh sửa
+Bước 6. Chạy dự án
 python app.py
 hoặc:
-
-bash
-Sao chép
-Chỉnh sửa
 flask run
-Truy cập trình duyệt tại:
+Sau đó, truy cập ứng dụng tại:
 http://127.0.0.1:5000
+4. Cấu trúc thư mục
 
-4. Cấu trúc thư mục (gợi ý)
-bash
-Sao chép
-Chỉnh sửa
-bookstore/
+book-website/
 ├── app.py
 ├── config.py
 ├── DB.py
@@ -122,7 +76,6 @@ bookstore/
 │   ├── cart.html
 │   ├── ...
 └── ...
-5. Tác giả & Đóng góp
-Tác giả: Đào Văn Thơm (thay tên bạn)
+5. Tác giả
+Tác giả: Đào Tấn Thảo
 
-Đóng góp: Mọi ý kiến, PR, issue được hoan nghênh.
