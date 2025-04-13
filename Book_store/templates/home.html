@@ -84,7 +84,7 @@
       }
 
       .card-body {
-        padding: 10px; /* Sửa lại padding */
+        padding: 10px;
       }
 
       .list-header {
@@ -139,8 +139,8 @@
         >
           <ul class="navbar-nav">
             <!-- Giỏ hàng -->
-            <li class="nav-item d-flex align-items-center">
-              <i class="fa fa-shopping-cart cart-icon"></i>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('view_cart') }}">Giỏ hàng</a>
             </li>
             {% if 'user' in session %}
             <li class="nav-item d-flex align-items-center">
@@ -200,7 +200,12 @@
                   >Xem chi tiết</a
                 >
 
-                <a href="#" class="btn btn-sm btn-success">Thêm vào giỏ</a>
+                <a
+                  href="{{ url_for('add_to_cart', bid=book.bid) }}"
+                  class="btn btn-sm btn-success"
+                >
+                  Thêm vào giỏ
+                </a>
               </div>
             </div>
           </div>

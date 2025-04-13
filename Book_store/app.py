@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, flash, render_template, request, redirect, url_for, session
 from config import Config
 from DB import db, Users, Category, Books
 
@@ -6,9 +6,6 @@ app = Flask(__name__)
 app.config.from_object(Config)
 db.init_app(app)
 
-##############################
-#          ROUTES           #
-##############################
 
 # ---------- Trang chủ ----------
 @app.route('/')
@@ -163,6 +160,65 @@ def book_detail(bid):
     book = Books.query.get_or_404(bid)
     return render_template('detail.html', book=book)
 
+# thêm vào giỏ hàng
+@app.route('/cart/add/<int:bid>')
+def add_to_cart(bid):
+    # if not in session or role != user => optional check
+    if 'cart' not in session:
+        session['cart'] = {}
+
+    cart = session['cart']
+    # Nếu đã có book_id, tăng số lượng
+    if str(bid) in cart:
+        cart[str(bid)] += 1
+    else:
+        cart[str(bid)] = 1
+
+    session['cart'] = cart
+    flash("Đã thêm sách vào giỏ hàng!")  # optional
+    return redirect(url_for('home'))
+
+@app.route('/cart')
+def view_cart():
+    cart = session.get('cart', {})
+    # Lấy danh sách (book_id, quantity)
+    # Rồi truy vấn DB Books để lấy thông tin từng sách
+    items = []
+    total_price = 0
+
+    for str_bid, qty in cart.items():
+        bid = int(str_bid)
+        book = Books.query.get_or_404(bid)
+        item_total = book.price * qty
+        total_price += item_total
+
+        items.append({
+            'id': bid,
+            'title': book.title,
+            'price': book.price,
+            'images': book.images,
+            'quantity': qty,
+            'item_total': item_total
+        })
+
+    return render_template('cart.html', items=items, total_price=total_price)
+
+
+# ---------- Xóa sách trong giỏ hàng ----------
+@app.route('/cart/remove/<int:bid>')
+def remove_from_cart(bid):
+    cart = session.get('cart', {})
+    str_bid = str(bid)
+    if str_bid in cart:
+        del cart[str_bid]
+    session['cart'] = cart
+    return redirect(url_for('view_cart'))
+
+# ---------- Xóa tất cả sách trong giỏ hàng ----------
+@app.route('/cart/clear')
+def clear_cart():
+    session['cart'] = {}
+    return redirect(url_for('view_cart'))
 
 # ---------- Xóa danh mục  ----------
 @app.route('/category/delete/<int:cateid>')
